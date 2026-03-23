@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Railway Reservation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 60%;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 30% 70%;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #444;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            .form-group {
+                grid-template-columns: 100%;
+            }
+
+            label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "CxH-mA_4PgO0WQpkc",
+      });
+   })();
+</script>
+    <script>
+function sendMail() {
+    emailjs.sendForm(
+        "service_eafvpbt",   // replace
+        "template_23c6z1e",  // replace
+        document.getElementById("reservationForm")
+    )
+    .then(function(response) {
+        alert("Ticket booked successfully! Email sent.");
+        document.getElementById("reservationForm").reset();
+    }, function(error) {
+        alert("Failed to send email. Try again.");
+        console.log(error);
+    });
+}
+</script>
+
+</head>
+<body>
+
+<div class="container">
+    <h2>Railway Reservation System</h2>
+    <form id="reservationForm">
+
+    <input type="text" name="user_name" placeholder="Enter name" required>
+<input type="number" name="user_age" placeholder="Enter age" required>
+
+<select name="user_gender">
+    <option>Select</option>
+    <option>Male</option>
+    <option>Female</option>
+    <option>Other</option>
+</select>
+
+<input type="text" name="source" placeholder="From">
+<input type="text" name="destination" placeholder="To">
+<input type="date" name="date">
+
+<select name="class">
+    <option>Select Class</option>
+    <option>Sleeper</option>
+    <option>AC 3 Tier</option>
+    <option>AC 2 Tier</option>
+    <option>First Class</option>
+</select>
+
+<select name="seat">
+    <option>No Preference</option>
+    <option>Window</option>
+    <option>Aisle</option>
+</select>
+<button type="button" class="btn" onclick="sendMail()">Book Ticket</button>
+    </form>
+</div>
+
+</body>
+</html>
