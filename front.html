@@ -44,6 +44,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 14px;
+            box-sizing: border-box;
         }
 
         input:focus, select:focus {
@@ -81,33 +82,6 @@
             }
         }
     </style>
-    <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init({
-        publicKey: "CxH-mA_4PgO0WQpkc",
-      });
-   })();
-</script>
-    <script>
-function sendMail() {
-    emailjs.sendForm(
-        "service_eafvpbt",   // replace
-        "template_23c6z1e",  // replace
-        document.getElementById("reservationForm")
-    )
-    .then(function(response) {
-        alert("Ticket booked successfully! Email sent.");
-        document.getElementById("reservationForm").reset();
-    }, function(error) {
-        alert("Failed to send email. Try again.");
-        console.log(error);
-    });
-}
-</script>
-
 </head>
 <body>
 
@@ -115,36 +89,97 @@ function sendMail() {
     <h2>Railway Reservation System</h2>
     <form id="reservationForm">
 
-    <input type="text" name="user_name" placeholder="Enter name" required>
-<input type="number" name="user_age" placeholder="Enter age" required>
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" name="user_name" placeholder="Enter name" required>
+        </div>
 
-<select name="user_gender">
-    <option>Select</option>
-    <option>Male</option>
-    <option>Female</option>
-    <option>Other</option>
-</select>
+        <div class="form-group">
+            <label>Age:</label>
+            <input type="number" name="user_age" placeholder="Enter age" required>
+        </div>
 
-<input type="text" name="source" placeholder="From">
-<input type="text" name="destination" placeholder="To">
-<input type="date" name="date">
+        <div class="form-group">
+            <label>Gender:</label>
+            <select name="user_gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
 
-<select name="class">
-    <option>Select Class</option>
-    <option>Sleeper</option>
-    <option>AC 3 Tier</option>
-    <option>AC 2 Tier</option>
-    <option>First Class</option>
-</select>
+        <div class="form-group">
+            <label>From:</label>
+            <input type="text" name="source" placeholder="From" required>
+        </div>
 
-<select name="seat">
-    <option>No Preference</option>
-    <option>Window</option>
-    <option>Aisle</option>
-</select>
-<button type="button" class="btn" onclick="sendMail()">Book Ticket</button>
+        <div class="form-group">
+            <label>To:</label>
+            <input type="text" name="destination" placeholder="To" required>
+        </div>
+
+        <div class="form-group">
+            <label>Date:</label>
+            <input type="date" name="date" required>
+        </div>
+
+        <div class="form-group">
+            <label>Class:</label>
+            <select name="class" required>
+                <option value="">Select Class</option>
+                <option value="Sleeper">Sleeper</option>
+                <option value="AC 3 Tier">AC 3 Tier</option>
+                <option value="AC 2 Tier">AC 2 Tier</option>
+                <option value="First Class">First Class</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Seat Preference:</label>
+            <select name="seat">
+                <option value="No Preference">No Preference</option>
+                <option value="Window">Window</option>
+                <option value="Aisle">Aisle</option>
+            </select>
+        </div>
+
+        <button type="button" class="btn" onclick="sendMail()">Book Ticket</button>
     </form>
 </div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "CxH-mA_4PgO0WQpkc"
+      });
+   })();
+</script>
+
+<script>
+function sendMail() {
+    // Validate form before sending
+    const form = document.getElementById("reservationForm");
+    if (!form.checkValidity()) {
+        alert("Please fill all required fields!");
+        return;
+    }
+
+    emailjs.sendForm(
+        "service_eafvpbt",
+        "template_23c6z1e",
+        document.getElementById("reservationForm")
+    )
+    .then(function(response) {
+        alert("Ticket booked successfully! Email sent.");
+        document.getElementById("reservationForm").reset();
+    }, function(error) {
+        alert("Failed to send email. Error: " + error.text);
+        console.log("EmailJS Error:", error);
+    });
+}
+</script>
 
 </body>
 </html>
